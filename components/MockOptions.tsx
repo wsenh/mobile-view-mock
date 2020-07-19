@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Device, DEVICES } from "./Mock";
 
 interface Props {
@@ -20,12 +20,6 @@ export const MockOptions: React.FC<Props> = ({
   onDeviceChange,
   url,
 }) => {
-  const [base, setBase] = useState<string>();
-
-  useEffect(() => {
-    setBase(window.location.origin);
-  }, [setBase]);
-
   return (
     <div className="container">
       <div style={{ margin: 12 }}>
