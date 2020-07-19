@@ -23,7 +23,8 @@ const UrlGeneratorPage: React.FC = () => {
       device && `device=${device}`,
     ]
       .join("&")
-      .replace(" ", "%20")}`;
+      .split(" ")
+      .join("%20")}`;
 
   useEffect(() => {
     if (Object.keys(router.query).length === 0 || readUrl) return;
