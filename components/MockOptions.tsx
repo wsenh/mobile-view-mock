@@ -5,18 +5,20 @@ interface Props {
   src: string;
   title: string;
   device: Device;
-  setSrc: React.Dispatch<React.SetStateAction<string>>;
-  setTitle: React.Dispatch<React.SetStateAction<string>>;
-  setDevice: React.Dispatch<React.SetStateAction<Device>>;
+  onSrcChange: (src: string) => void;
+  onTitleChange: (title: string) => void;
+  onDeviceChange: (device: Device) => void;
+  url: string;
 }
 
 export const MockOptions: React.FC<Props> = ({
   src,
   title,
   device,
-  setSrc,
-  setTitle,
-  setDevice,
+  onSrcChange,
+  onTitleChange,
+  onDeviceChange,
+  url,
 }) => {
   const [base, setBase] = useState<string>();
 
@@ -32,7 +34,7 @@ export const MockOptions: React.FC<Props> = ({
           className="u-full-width"
           placeholder="Mobile View Mock"
           value={title}
-          onChange={e => setTitle(e.target.value)}
+          onChange={e => onTitleChange(e.target.value)}
         />
       </div>
       <div style={{ margin: 12 }}>
@@ -41,14 +43,14 @@ export const MockOptions: React.FC<Props> = ({
           className="u-full-width"
           placeholder="/embed-example"
           value={src}
-          onChange={e => setSrc(e.target.value)}
+          onChange={e => onSrcChange(e.target.value)}
         />
       </div>
       <div style={{ margin: 12 }}>
         <label>Device</label>
         <select
           value={device}
-          onChange={e => setDevice(e.target.value as Device)}
+          onChange={e => onDeviceChange(e.target.value as Device)}
         >
           {DEVICES.map(d => {
             return <option key={d}>{d}</option>;
@@ -57,13 +59,7 @@ export const MockOptions: React.FC<Props> = ({
       </div>
       <div style={{ margin: 12 }}>
         <label>URL</label>
-        <p>{`${base}/?${[
-          title && `title=${title}`,
-          src && `mock_url=${src}`,
-          device && `device=${device}`,
-        ]
-          .join("&")
-          .replace(" ", "%20")}`}</p>
+        <p>{url}</p>
       </div>
     </div>
   );

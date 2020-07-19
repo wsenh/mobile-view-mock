@@ -10,11 +10,31 @@ const UrlGeneratorPage: React.FC = () => {
   const [title, setTitle] = useState("Mobile View Mock");
   const router = useRouter();
 
+  const [base, setBase] = useState<string>();
+  useEffect(() => {
+    setBase(window.location.origin);
+  }, [setBase]);
+
+  const composeUrl = (route: string, withBase = false) =>
+    `${withBase ? base : ""}/${route}?${[
+      title && `title=${title}`,
+      src && `mock_url=${src}`,
+      device && `device=${device}`,
+    ]
+      .join("&")
+      .replace(" ", "%20")}`;
+
   useEffect(() => {
     if (router.query.mock_url) setSrc(router.query.mock_url as string);
     if (router.query.device) setDevice(router.query.device as Device);
     if (router.query.title) setTitle(router.query.title as string);
   }, [router, setSrc, setDevice, setTitle]);
+
+  useEffect(() => {
+    router.push(composeUrl("url-generator", false), undefined, {
+      shadow: true,
+    });
+  }, [src, device, title]);
 
   return (
     <>
@@ -29,7 +49,21 @@ const UrlGeneratorPage: React.FC = () => {
         </div>
         <div className="six columns">
           <MockOptions
-            {...{ src, setSrc, device, setDevice, title, setTitle }}
+            {...{
+              src,
+              onSrcChange: src => {
+                setSrc(src);
+              },
+              device,
+              onDeviceChange: device => {
+                setDevice(device);
+              },
+              title,
+              onTitleChange: title => {
+                setTitle(title);
+              },
+              url: composeUrl("", true),
+            }}
           />
         </div>
       </div>
