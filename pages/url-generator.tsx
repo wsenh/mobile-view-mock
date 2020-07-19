@@ -20,11 +20,6 @@ const UrlGeneratorPage: React.FC = () => {
     <>
       <Head>
         <title>{title}</title>
-        <link
-          key="raleway"
-          href="https://fonts.googleapis.com/css2?family=Raleway&display=swap"
-          rel="stylesheet"
-        />
         <link key="normalize" href="/styles/normalize.css" rel="stylesheet" />
         <link key="skeleton" href="/styles/skeleton.css" rel="stylesheet" />
       </Head>
