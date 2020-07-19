@@ -8,6 +8,7 @@ const UrlGeneratorPage: React.FC = () => {
   const [src, setSrc] = useState("/embed-example");
   const [device, setDevice] = useState<Device>("device-iphone-x");
   const [title, setTitle] = useState("Mobile View Mock");
+  const [readUrl, setReadUrl] = useState(false);
   const router = useRouter();
 
   const [base, setBase] = useState<string>();
@@ -25,10 +26,12 @@ const UrlGeneratorPage: React.FC = () => {
       .replace(" ", "%20")}`;
 
   useEffect(() => {
+    if (Object.keys(router.query).length === 0 || readUrl) return;
     if (router.query.mock_url) setSrc(router.query.mock_url as string);
     if (router.query.device) setDevice(router.query.device as Device);
     if (router.query.title) setTitle(router.query.title as string);
-  }, [router, setSrc, setDevice, setTitle]);
+    setReadUrl(true);
+  }, [readUrl, setReadUrl, router, setSrc, setDevice, setTitle]);
 
   useEffect(() => {
     router.push(composeUrl("url-generator", false), undefined, {
